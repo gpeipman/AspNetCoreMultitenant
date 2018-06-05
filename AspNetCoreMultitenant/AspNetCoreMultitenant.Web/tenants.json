@@ -1,0 +1,10 @@
+﻿[
+  {
+    "Id": 1,
+    "Host": "localhost:5000"
+  },
+  {
+    "Id": 2,
+    "Host": "powerasus:5000"
+  }
+]

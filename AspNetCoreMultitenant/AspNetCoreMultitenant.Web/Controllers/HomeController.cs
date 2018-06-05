@@ -1,15 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using AspNetCoreMultitenant.Web.Data;
+using AspNetCoreMultitenant.Web.Extensions;
 using AspNetCoreMultitenant.Web.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreMultitenant.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly ITenantProvider _tenantProvider;
+
+        public HomeController(ApplicationDbContext context, ITenantProvider tenantProvider)
+        {
+            _context = context;
+            _tenantProvider = tenantProvider;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -17,14 +25,14 @@ namespace AspNetCoreMultitenant.Web.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
+            _context.Users.Add(new IdentityUser());
+            ViewData["Message"] = _context.TenantId + ";" + _tenantProvider.GetTenant().Id;
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = HttpContext.Request.Host.ToString();
 
             return View();
         }
