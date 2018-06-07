@@ -54,6 +54,8 @@ namespace AspNetCoreMultitenant.Web
                 app.UseHsts();
             }
 
+            app.UseMiddleware<MissingTenantMiddleware>(Configuration["MissingTenantUrl"]);
+
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

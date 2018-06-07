@@ -7,7 +7,7 @@ namespace AspNetCoreMultitenant.Web.Extensions
 {
     public class FileTenantProvider : ITenantProvider
     {
-        private Tenant[] _tenants;
+        private static Tenant[] _tenants;
         private string _host;
 
         public FileTenantProvider(IHttpContextAccessor accessor)
@@ -22,7 +22,7 @@ namespace AspNetCoreMultitenant.Web.Extensions
             return _tenants.FirstOrDefault(t => t.Host.ToLower() == _host.ToLower());
         }
 
-        private void LoadTenants()
+        private static void LoadTenants()
         {
             if(_tenants != null)
             {

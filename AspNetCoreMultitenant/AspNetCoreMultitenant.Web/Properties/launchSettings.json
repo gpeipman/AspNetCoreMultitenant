@@ -17,11 +17,11 @@
     },
     "AspNetCoreMultitenant.Web": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5000;http://powerasus:5000"
+      "applicationUrl": "http://127.0.01:5000"
     }
   }
 }
