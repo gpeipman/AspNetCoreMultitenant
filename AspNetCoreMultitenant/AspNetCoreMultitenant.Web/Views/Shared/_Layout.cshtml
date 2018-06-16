@@ -43,6 +43,10 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
+        <div style="float:left;margin-top:40px;margin-right:30px;padding:20px;border:1px solid gray"ˇclass="clear">
+            @(await Component.InvokeAsync<CategoryMenuViewComponent>())
+        </div>
+        
         @RenderBody()
         <hr />
         <footer>

@@ -46,5 +46,10 @@ namespace AspNetCoreMultitenant.Web.Extensions
         {
             return _tenants.FirstOrDefault(t => t.Host.ToLower() == _host.ToLower());
         }
+
+        public Tenant[] ListTenants()
+        {
+            return _tenants.ToArray();
+        }
     }
 }

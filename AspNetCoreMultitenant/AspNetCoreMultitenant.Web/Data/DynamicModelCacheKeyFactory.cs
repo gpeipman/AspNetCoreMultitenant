@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace AspNetCoreMultitenant.Web.Data
@@ -9,10 +10,10 @@ namespace AspNetCoreMultitenant.Web.Data
         {
             if (context is ApplicationDbContext dynamicContext)
             {
-                return (context.GetType(), dynamicContext.TenantId);
+                return new { dynamicContext.TenantId };
             }
 
-            return context.GetType();
+            throw new Exception("Unknown DBContent type");
         }
     }
 }

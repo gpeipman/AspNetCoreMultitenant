@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using AspNetCoreMultitenant.Web.Data;
 using AspNetCoreMultitenant.Web.Extensions;
 using AspNetCoreMultitenant.Web.Models;
@@ -20,7 +21,18 @@ namespace AspNetCoreMultitenant.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            _context.Database.EnsureCreated();
+
+            var model = _context.Products.ToList();
+
+            return View("ProductList", model);
+        }
+
+        public IActionResult Category(int id)
+        {
+            var model = _context.Products.Where(p => p.Category.Id == id).ToList();
+
+            return View("ProductList", model);
         }
 
         public IActionResult About()
