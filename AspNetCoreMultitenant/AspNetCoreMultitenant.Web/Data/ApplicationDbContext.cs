@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AspNetCoreMultitenant.Web.Extensions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -162,5 +161,38 @@ namespace AspNetCoreMultitenant.Web.Data
             }
         }
         #endregion
+
+        public void AddData()
+        {
+            if(_tenant == null || _tenant.Id == 1)
+            {
+                AddDataForTenant1();
+            }
+        }
+
+        private void AddDataForTenant1()
+        {
+            if(Products.Count() > 0)
+            {
+                return;
+            }
+
+            var computers = new ProductCategory { Name = "Computers", TenantId = 1 };
+            var tv = new ProductCategory { Name = "TV", TenantId = 1 };
+
+            Categories.Add(computers);
+            Categories.Add(tv);
+
+            Products.Add(new Product { Category = computers, Name = "Notebook Lenovo IdeaPad 120S-14IAP", TenantId = 1, Description="" });
+            Products.Add(new Product { Category = computers, Name = "Notebook Lenovo Yoga 520-14IKB", TenantId = 1, Description = "" });
+            Products.Add(new Product { Category = computers, Name = "Tablet Apple iPad 9.7 (2017) / 32 GB, WiFi", TenantId = 1, Description = "" });
+            Products.Add(new Product { Category = computers, Name = "Notebook Acer Swift 5", TenantId = 1, Description = "" });
+
+            Products.Add(new Product { Category = tv, Name = "49'' Ultra HD LED LCD TV Philips", TenantId = 1, Description = "" });
+            Products.Add(new Product { Category = tv, Name = "65'' Ultra HD ULED LCD TV Hisense", TenantId = 1, Description = "" });
+            Products.Add(new Product { Category = tv, Name = "55'' Ultra HD LED LCD TV LG", TenantId = 1, Description = "" });
+
+            SaveChanges();
+        }
     }
 }

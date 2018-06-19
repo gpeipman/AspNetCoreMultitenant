@@ -8,6 +8,6 @@ namespace AspNetCoreMultitenant.Web.Data
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int TenantId { get; private set; }
+        public int TenantId { get; set; }
     }
 }

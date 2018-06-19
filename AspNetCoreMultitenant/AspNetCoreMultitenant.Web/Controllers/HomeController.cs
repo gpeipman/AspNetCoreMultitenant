@@ -22,7 +22,16 @@ namespace AspNetCoreMultitenant.Web.Controllers
         public IActionResult Index()
         {
             _context.Database.EnsureCreated();
+            _context.AddData();
 
+            var grouped = from b in _context.Products
+                          group b.Id by b.Category.Name into g
+                          select new
+                          {
+                              Key = g.Key,
+                              Products = g.Count()
+                          };
+            var result = grouped.ToList();
             var model = _context.Products.ToList();
 
             return View("ProductList", model);
