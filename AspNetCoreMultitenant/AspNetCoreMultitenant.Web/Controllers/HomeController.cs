@@ -5,6 +5,7 @@ using AspNetCoreMultitenant.Web.Extensions;
 using AspNetCoreMultitenant.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreMultitenant.Web.Controllers
 {
@@ -23,15 +24,20 @@ namespace AspNetCoreMultitenant.Web.Controllers
         {
             _context.Database.EnsureCreated();
 
-            var model = _context.Products.ToList();
+            var model = _context.Products
+                                .Include(b => b.Category)
+                                .ToList();
 
             return View("ProductList", model);
         }
 
         public IActionResult Category(int id)
         {
-            var model = _context.Products.Where(p => p.Category.Id == id).ToList();
-
+            var model = _context.Categories
+                                   .Include(c => c.Products)
+                                   .First(c => c.Id == id)
+                                   .Products;
+            
             return View("ProductList", model);
         }
 

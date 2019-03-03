@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,10 +28,8 @@ namespace AspNetCoreMultitenant.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options => {
-            });
+            services.AddDbContext<ApplicationDbContext>(options => {});
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddScoped<ITenantProvider, FileTenantProvider>();
@@ -68,15 +64,5 @@ namespace AspNetCoreMultitenant.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-        //private void EnsureUpdatedDatabases(IApplicationBuilder app)
-        //{
-        //    using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-        //    {
-        //        var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        //        context.Database.Migrate();
-        //        context.Database.EnsureCreated();
-        //    }
-        //}
     }
 }

@@ -13,7 +13,7 @@ namespace AspNetCoreMultitenant.Web.Data
                 return new { dynamicContext.TenantId };
             }
 
-            throw new Exception("Unknown DBContent type");
+            throw new Exception("Unknown DBContext type");
         }
     }
 }

@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AspNetCoreMultitenant.Web.Extensions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -33,11 +32,18 @@ namespace AspNetCoreMultitenant.Web.Data
             {
                 optionsBuilder.UseMySql(_tenant.ConnectionString);
             }
+
             optionsBuilder.ReplaceService<IModelCacheKeyFactory, DynamicModelCacheKeyFactory>();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            var navigation = builder.Entity<ProductCategory>()
+                                    .Metadata
+                                    .FindNavigation(nameof(ProductCategory.Products));
+
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
             foreach (var type in GetEntityTypes())
             {
                 var method = SetGlobalQueryMethod.MakeGenericMethod(type);
