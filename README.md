@@ -26,9 +26,9 @@ There are three tenants defined:
 * **sme2** - uses shared SQL Server database
 
 There are also some host name mappings needed to run this demo on local machine:
-127.0.0.1    bigcorp
-127.0.0.1    sme1
-127.0.0.1    sme2
+* 127.0.0.1    bigcorp
+* 127.0.0.1    sme1
+* 127.0.0.1    sme2
 
 Web application uses port 5000 and it must be added to URL of all tenants:
 
