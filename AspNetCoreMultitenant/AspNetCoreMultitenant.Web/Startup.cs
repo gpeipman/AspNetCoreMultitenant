@@ -1,5 +1,7 @@
-﻿using AspNetCoreMultitenant.Web.Data;
+﻿using AspNetCoreMultitenant.Web.Commands.SaveProduct;
+using AspNetCoreMultitenant.Web.Data;
 using AspNetCoreMultitenant.Web.Extensions;
+using AspNetCoreMultitenant.Web.FileSystem;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +21,6 @@ namespace AspNetCoreMultitenant.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
@@ -33,9 +34,31 @@ namespace AspNetCoreMultitenant.Web
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddScoped<ITenantProvider, FileTenantProvider>();
+            services.AddScoped<SaveProductCommand>();
+            services.AddScoped<SaveProductImagesCommand>();
+            services.AddScoped<SaveProductThumbnailsCommand>();
+            services.AddScoped<SaveProductToDatabaseCommand>();
+            services.AddScoped<NotifyCustomersOfProductCommand>();
+
+            services.AddScoped<IFileClient>(service =>
+            {
+                var provider = service.GetRequiredService<ITenantProvider>();
+                var tenant = provider.GetTenant();
+
+                if(tenant.StorageType == "GoogleDrive")
+                {
+                    return new GoogleDriveFileClient(tenant.ConnectionString);
+                }
+
+                if(tenant.StorageType == "AzureBlob")
+                {
+                    return new AzureBlobStorageFileClient(tenant.ConnectionString);
+                }
+
+                return null;
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -46,7 +69,7 @@ namespace AspNetCoreMultitenant.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             app.UseMiddleware<MissingTenantMiddleware>(Configuration["MissingTenantUrl"]);

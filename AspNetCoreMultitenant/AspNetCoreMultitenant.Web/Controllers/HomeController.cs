@@ -2,8 +2,8 @@
 using System.Linq;
 using AspNetCoreMultitenant.Web.Data;
 using AspNetCoreMultitenant.Web.Extensions;
+using AspNetCoreMultitenant.Web.FileSystem;
 using AspNetCoreMultitenant.Web.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +14,9 @@ namespace AspNetCoreMultitenant.Web.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ITenantProvider _tenantProvider;
 
-        public HomeController(ApplicationDbContext context, ITenantProvider tenantProvider)
+        public HomeController(ApplicationDbContext context, 
+                              ITenantProvider tenantProvider,
+                              IFileClient fileClient)
         {
             _context = context;
             _tenantProvider = tenantProvider;
@@ -43,7 +45,6 @@ namespace AspNetCoreMultitenant.Web.Controllers
 
         public IActionResult About()
         {
-            _context.Users.Add(new IdentityUser());
             ViewData["Message"] = _context.TenantId + ";" + _tenantProvider.GetTenant().Id;
             return View();
         }

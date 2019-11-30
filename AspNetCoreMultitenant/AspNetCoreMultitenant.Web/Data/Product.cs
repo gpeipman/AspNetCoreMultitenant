@@ -8,6 +8,11 @@ namespace AspNetCoreMultitenant.Web.Data
         private string _description;
         private ProductCategory _category;
 
+        public Product()
+        {
+
+        }
+
         public Product(int tenantId, int id, string name, string description)
         {
             TenantId = tenantId;
