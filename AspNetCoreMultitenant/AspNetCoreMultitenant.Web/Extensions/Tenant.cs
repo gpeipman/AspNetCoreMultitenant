@@ -10,5 +10,8 @@
 
         public string StorageType { get; set; }
         public string StorageConnectionString { get; set; }
+
+        public bool UseAdvancedProductThumbnails { get; set; }
+        public bool SendProductNotifications { get; set; }
     }
 }

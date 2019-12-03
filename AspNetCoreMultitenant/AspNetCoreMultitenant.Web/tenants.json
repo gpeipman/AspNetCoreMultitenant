@@ -24,6 +24,8 @@
     "ConnectionString": "Server=localhost;Database=multitenant;Uid=demo;Pwd=demo",
     "Name": "Big corp",
     "StorageType": "AzureBlob",
-    "StorageConnectionString": "<storage connection string>"
+    "StorageConnectionString": "<storage connection string>",
+    "UseAdvancedProductThumbnails": true,
+    "SendProductNotifications": true
   }
 ]

@@ -37,6 +37,7 @@ namespace AspNetCoreMultitenant.Web
             services.AddScoped<SaveProductCommand>();
             services.AddScoped<SaveProductImagesCommand>();
             services.AddScoped<SaveProductThumbnailsCommand>();
+            services.AddScoped<SaveAdvancedProductThumbnails>();
             services.AddScoped<SaveProductToDatabaseCommand>();
             services.AddScoped<NotifyCustomersOfProductCommand>();
 

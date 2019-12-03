@@ -1,18 +1,35 @@
-﻿using AspNetCoreMultitenant.Web.Models;
+﻿using AspNetCoreMultitenant.Web.Extensions;
+using AspNetCoreMultitenant.Web.Models;
 
 namespace AspNetCoreMultitenant.Web.Commands.SaveProduct
 {
     public class SaveProductCommand : CompositeCommandBase<ProductEditModel>
     {
-        public SaveProductCommand(SaveProductToDatabaseCommand saveToDb,
+        public SaveProductCommand(ITenantProvider tenantProvider,
+                                  SaveProductToDatabaseCommand saveToDb,
                                   SaveProductImagesCommand saveImages,
                                   SaveProductThumbnailsCommand saveThumbnails,
+                                  SaveAdvancedProductThumbnails saveAdvancedProductThumbnails,
                                   NotifyCustomersOfProductCommand notifyCustomers)
         {
+            var tenant = tenantProvider.GetTenant();
+
             Children.Add(saveToDb);
             Children.Add(saveImages);
-            Children.Add(saveThumbnails);
-            Children.Add(notifyCustomers);
+
+            if (tenant.UseAdvancedProductThumbnails)
+            {
+                Children.Add(saveAdvancedProductThumbnails);
+            }
+            else
+            {
+                Children.Add(saveThumbnails);
+            }
+
+            if (tenant.SendProductNotifications)
+            {
+                Children.Add(notifyCustomers);
+            }
         }
     }
 }
