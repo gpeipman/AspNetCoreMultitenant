@@ -16,7 +16,7 @@ This lab is about getting started with multitenant ASP.NET Core solution.
 3. Run your favorite text editor as administrator.
 4. Open Windows hosts file (c:\windows\systems32\drivers\etc\host)
 5. Add the following host mappings:
-..* 127.0.0.1 sme1
-..* 127.0.0.1 sme2
-..* 127.0.0.1 bigcorp
+  * 127.0.0.1 sme1
+  * 127.0.0.1 sme2
+  * 127.0.0.1 bigcorp
 6. Save file and close it
