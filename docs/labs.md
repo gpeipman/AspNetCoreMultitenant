@@ -1,2 +1,2 @@
-# Multi-tenant ASP.NET Core Labs
+# Multitenant ASP.NET Core Labs
 
