@@ -10,7 +10,6 @@ namespace AspNetCoreMultitenant.Web.Data
 
         public Product()
         {
-
         }
 
         public Product(int tenantId, int id, string name, string description)

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using AspNetCoreMultitenant.Web.Commands.SaveProduct;
 using AspNetCoreMultitenant.Web.Data;
 using AspNetCoreMultitenant.Web.Extensions;
 using AspNetCoreMultitenant.Web.FileSystem;
@@ -24,7 +25,7 @@ namespace AspNetCoreMultitenant.Web.Controllers
 
         public IActionResult Index()
         {
-            _context.Database.EnsureCreated();
+            //_context.Database.EnsureCreated();
 
             var model = _context.Products
                                 .Include(b => b.Category)
@@ -54,6 +55,14 @@ namespace AspNetCoreMultitenant.Web.Controllers
             ViewData["Message"] = HttpContext.Request.Host.ToString();
 
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ProductEditModel model, [FromServices]SaveProductCommand command)
+        {
+            command.Execute(model);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

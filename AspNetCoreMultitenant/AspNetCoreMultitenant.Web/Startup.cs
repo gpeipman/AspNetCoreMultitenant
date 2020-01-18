@@ -1,4 +1,6 @@
-﻿using AspNetCoreMultitenant.Web.Commands.SaveProduct;
+﻿using System.Diagnostics;
+using System.Linq;
+using AspNetCoreMultitenant.Web.Commands.SaveProduct;
 using AspNetCoreMultitenant.Web.Data;
 using AspNetCoreMultitenant.Web.Extensions;
 using AspNetCoreMultitenant.Web.FileSystem;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,7 +34,7 @@ namespace AspNetCoreMultitenant.Web
 
             services.AddDbContext<ApplicationDbContext>(options => {});
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<ITenantProvider, FileTenantProvider>();
             services.AddScoped<SaveProductCommand>();
@@ -87,6 +90,41 @@ namespace AspNetCoreMultitenant.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            //using (var serviceScope = serviceScopeFactory.CreateScope())
+            //{
+            //    var dbContext = serviceScope.ServiceProvider.GetService<LasteDbContext>();
+            //    dbContext.Database.EnsureCreated();
+
+            //    if (dbContext.Invoices.Count() == 0)
+            //    {
+            //        for (var i = 0; i < 11; i++)
+            //        {
+            //            //dbContext.Invoices.Add(invoice);
+            //        }
+            //        dbContext.SaveChanges();
+            //    }
+            //}
+
+            var options = new DbContextOptions<ApplicationDbContext>();
+            var provider = new FileTenantProvider();
+
+            foreach (var tenant in provider.ListTenants())
+            {
+                provider.SetHostName(tenant.Host);
+
+                using (var dbContext = new ApplicationDbContext(options, provider))
+                {
+                    dbContext.Database.EnsureCreated();
+
+                    if (dbContext.Products.Count() == 0)
+                    {
+                        // Lisa andmed andmebaasi
+                        dbContext.GenerateData(tenant.Id);
+                    }
+                }
+            }
         }
     }
 }

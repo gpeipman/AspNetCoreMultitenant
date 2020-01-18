@@ -110,7 +110,6 @@ namespace AspNetCoreMultitenant.Web.Data
         public void SetGlobalQuery<T>(ModelBuilder builder) where T : BaseEntity
         {
             builder.Entity<T>().HasKey(e => e.Id);
-            //Debug.WriteLine("Adding global query for: " + typeof(T));
             builder.Entity<T>().HasQueryFilter(e => e.TenantId == _tenant.Id);
         }
         #endregion
@@ -118,28 +117,32 @@ namespace AspNetCoreMultitenant.Web.Data
         #region DefensiveOps
         public override int SaveChanges()
         {
-            ThrowIfMultipleTenants();
+            SetTenantsIds();
+            ThrowIfMultipleTenants();            
 
             return base.SaveChanges();
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            ThrowIfMultipleTenants();
+            SetTenantsIds();
+            ThrowIfMultipleTenants();           
 
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
-            ThrowIfMultipleTenants();
+            SetTenantsIds();
+            ThrowIfMultipleTenants();            
 
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            ThrowIfMultipleTenants();
+            SetTenantsIds();
+            ThrowIfMultipleTenants();            
 
             return base.SaveChangesAsync(cancellationToken);
         }
@@ -168,6 +171,19 @@ namespace AspNetCoreMultitenant.Web.Data
             }
         }
         #endregion
+
+        private void SetTenantsIds()
+        {
+            var entities = from e in ChangeTracker.Entries()
+                            where e.Entity is BaseEntity && 
+                                  ((BaseEntity)e.Entity).TenantId == 0
+                            select (BaseEntity)e.Entity;
+
+            foreach(var entity in entities)
+            {
+                entity.TenantId = _tenant.Id;
+            }
+        }
 
         public void AddData()
         {

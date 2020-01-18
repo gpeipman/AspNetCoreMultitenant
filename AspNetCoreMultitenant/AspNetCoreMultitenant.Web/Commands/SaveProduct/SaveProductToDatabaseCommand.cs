@@ -15,7 +15,7 @@ namespace AspNetCoreMultitenant.Web.Commands.SaveProduct
 
         public void Execute(ProductEditModel parameter)
         {
-            Debug.Write("Save product thumbnails: provider is ");
+            Debug.Write("Save product to database: provider is ");
             Debug.WriteLine(_dbContext.Database.ProviderName);
         }
     }
