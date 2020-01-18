@@ -12,8 +12,9 @@ There are multiple features and solutions demonstrated in demo application:
 * Loading tenants configuration
 * [Missing tenant middleware](https://gunnarpeipman.com/aspnet-core-missing-tenant-middleware/)
 * [Tenants provider to get current tenant](https://gunnarpeipman.com/aspnet-core-tenant-providers/)
-* Tenant-based dependency injection (coming soon)
+* [Tenant-based dependency injection](https://gunnarpeipman.com/aspnet-core-tenant-based-dependency-injection/)
 * Unit-testing multi-tenant database content (coming soon)
+* [Multi-tenant configurable composite commands](https://gunnarpeipman.com/aspnet-core-configurable-composite-command/)
 
 ## Setting every thing up
 
