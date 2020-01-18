@@ -2,6 +2,8 @@
 
 This is demo project for my [Multi-tenant ASP.NET Core presentation](https://gunnarpeipman.com/presentations/aspnet-core-multitenant/). It demonstrates multi-tenant solutions I have worked out for ASP.NET Core. I'm using the same demo also for presentations. Solutions provided here are not absolute truth. There are cases when something different is needed and then the code here serves as a good starting point.
 
+[Labs](docs/labs.md)
+
 ## Features
 
 There are multiple features and solutions demonstrated in demo application:
