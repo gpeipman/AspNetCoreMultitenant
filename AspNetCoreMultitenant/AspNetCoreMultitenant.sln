@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreMultitenant.Web",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMultitenant.Shared", "AspNetCoreMultitenant.Shared\AspNetCoreMultitenant.Shared.csproj", "{9A47D5FD-5611-47A1-8E3B-3A6FDF279384}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMultitenant.WebDangerous", "AspNetCoreMultitenant.WebDangerous\AspNetCoreMultitenant.WebDangerous.csproj", "{421E882B-B39E-4FD0-8502-788EBBDB4908}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9A47D5FD-5611-47A1-8E3B-3A6FDF279384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A47D5FD-5611-47A1-8E3B-3A6FDF279384}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A47D5FD-5611-47A1-8E3B-3A6FDF279384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{421E882B-B39E-4FD0-8502-788EBBDB4908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{421E882B-B39E-4FD0-8502-788EBBDB4908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{421E882B-B39E-4FD0-8502-788EBBDB4908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{421E882B-B39E-4FD0-8502-788EBBDB4908}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
