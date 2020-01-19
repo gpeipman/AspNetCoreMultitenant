@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace AspNetCoreMultitenant.Web.Extensions
+namespace AspNetCoreMultitenant.Shared
 {
     public class MissingTenantMiddleware
     {

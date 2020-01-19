@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AspNetCoreMultitenant.Web.Extensions
+﻿namespace AspNetCoreMultitenant.Shared
 {
     public interface ITenantProvider
     {

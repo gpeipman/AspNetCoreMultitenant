@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Newtonsoft.Json;
 
-namespace AspNetCoreMultitenant.Web.Extensions
+namespace AspNetCoreMultitenant.Shared.TenantProvider
 {
     public class BlobStorageTenantProvider : ITenantProvider
     {

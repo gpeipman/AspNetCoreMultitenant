@@ -6,7 +6,7 @@ using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace AspNetCoreMultitenant.Web.Extensions
+namespace AspNetCoreMultitenant.Shared.TenantProviders
 {
     public class FileTenantProvider : ITenantProvider
     {
@@ -21,7 +21,7 @@ namespace AspNetCoreMultitenant.Web.Extensions
             _host = accessor.HttpContext.Request.Host.ToString();
         }
 
-        internal FileTenantProvider()
+        public FileTenantProvider()
         {
         }
 
@@ -32,7 +32,7 @@ namespace AspNetCoreMultitenant.Web.Extensions
             return _tenants.FirstOrDefault(t => t.Host.ToLower() == _host.ToLower());
         }
 
-        internal void SetHostName(string host)
+        public void SetHostName(string host)
         {
             _host = host;
         }

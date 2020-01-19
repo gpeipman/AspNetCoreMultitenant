@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using AspNetCoreMultitenant.Shared;
+using AspNetCoreMultitenant.Shared.Data;
 using AspNetCoreMultitenant.Web.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,7 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace AspNetCoreMultitenant.Web.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext, IMultitenantDbContext
     {
         private readonly Tenant _tenant;
 

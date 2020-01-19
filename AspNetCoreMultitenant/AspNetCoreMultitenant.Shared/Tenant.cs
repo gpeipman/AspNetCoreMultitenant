@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreMultitenant.Web.Extensions
+﻿namespace AspNetCoreMultitenant.Shared
 {
     public class Tenant
     {
