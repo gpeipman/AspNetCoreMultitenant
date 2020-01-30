@@ -1,4 +1,4 @@
-# Multitenant ASP.NET Core Lab 1: Tenant sources
+# Multitenant ASP.NET Core Lab 2: Tenant sources
 
 **NB** TenantProvider => TenantSource
 
