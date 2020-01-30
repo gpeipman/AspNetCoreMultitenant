@@ -2,6 +2,6 @@
 {
     public interface IMultitenantDbContext
     {
-        public int TenantId { get; }
+        int TenantId { get; }
     }
 }

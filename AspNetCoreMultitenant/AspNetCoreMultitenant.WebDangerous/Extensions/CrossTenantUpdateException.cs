@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AspNetCoreMultitenant.Web.Extensions
+namespace AspNetCoreMultitenant.WebDangerous.Extensions
 {
     public class CrossTenantUpdateException : ApplicationException
     {

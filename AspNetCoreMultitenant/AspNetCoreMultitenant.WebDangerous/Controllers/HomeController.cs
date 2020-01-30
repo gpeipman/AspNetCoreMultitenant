@@ -1,25 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using AspNetCoreMultitenant.WebDangerous.Data;
+using AspNetCoreMultitenant.WebDangerous.FileSystem;
 using AspNetCoreMultitenant.WebDangerous.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreMultitenant.WebDangerous.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
+        private readonly ITenantProvider _tenantProvider;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context,
+                              ITenantProvider tenantProvider,
+                              IFileClient fileClient)
         {
-            _logger = logger;
+            _context = context;
+            _tenantProvider = tenantProvider;
         }
 
         public IActionResult Index()
         {
+            //_context.Database.EnsureCreated();
+
+            var model = _context.Products
+                                .Include(b => b.Category)
+                                .ToList();
+
+            return View("ProductList", model);
+        }
+
+        public IActionResult Category(int id)
+        {
+            var model = _context.Categories
+                                   .Include(c => c.Products)
+                                   .First(c => c.Id == id)
+                                   .Products;
+
+            return View("ProductList", model);
+        }
+
+        public IActionResult About()
+        {
+            ViewData["Message"] = _context.TenantId + ";" + _tenantProvider.GetTenant().Id;
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewData["Message"] = HttpContext.Request.Host.ToString();
+
             return View();
         }
 
