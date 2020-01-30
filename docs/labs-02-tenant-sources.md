@@ -13,7 +13,7 @@ with tenants store.
 
 * Visual Studio 2019 or Visual Studio Code
 * MSSQL (localdb is okay)
-* One of these two:
+* One of these:
 	* Azure account
 	* Azure storage emulator on local machine
 * Azure Storage Explorer
