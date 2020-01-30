@@ -1,6 +1,9 @@
 # Multitenant ASP.NET Core Lab 1: Getting started
 
-This lab is about getting started with multitenant ASP.NET Core solution. 
+This lab is about getting started with multitenant ASP.NET Core solution. Web application and environment 
+where it is running need configuring. Configuration must be tested to make sure applications builds and runs. 
+Last step is trying out something responsive - how application automatically reflects changes in tenants 
+configuration file.
 
 ## Prerequisites
 
@@ -19,14 +22,16 @@ This lab is about getting started with multitenant ASP.NET Core solution.
   * 127.0.0.1 sme2
   * 127.0.0.1 bigcorp
 6. Save file and close it
-7. Run application (it doesn't open browser window)
+
+## Step 2: Running application
+7. Run application NB! SAFE PROJECT (it doesn't open browser window)
 8. Open browser and try out the following URL-s:
   * http://sme1:5000
   * http://sme2:5000
   * http://bigcorp:500
 9. All these links should open front page of application and display tenant name
  
-## Step 2: Changing tenant settings
+## Step 3: Changing tenant settings
  
 1. Open tenants.json file (project root folder)
 2. Change names of all tenants defined there
