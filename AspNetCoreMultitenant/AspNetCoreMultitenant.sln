@@ -1,9 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMultitenant.Web", "AspNetCoreMultitenant.Web\AspNetCoreMultitenant.Web.csproj", "{AF6B2C2A-A586-4987-850D-D34D9C447531}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreMultitenant.Web", "AspNetCoreMultitenant.Web\AspNetCoreMultitenant.Web.csproj", "{AF6B2C2A-A586-4987-850D-D34D9C447531}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{2371E8C1-FED4-479B-A400-3B476C86147F}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\labs-01-getting-started.md = ..\docs\labs-01-getting-started.md
+		..\docs\labs-02-tenant-sources.md = ..\docs\labs-02-tenant-sources.md
+		..\docs\labs.md = ..\docs\labs.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
