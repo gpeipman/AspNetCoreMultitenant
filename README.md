@@ -55,3 +55,12 @@ Dangerous web application uses port 5001 and it must be added to URL of all tena
 * http://sme2:5001
 
 When using public server to host this application make sure you turn on HTTPS in application startup.
+
+## Concepts
+
+This solution has some important concepts to know:
+
+* Tenant source - class that knows how to read tenant definitions from tenants store
+* Tenant provider - class that knows how to find current tenant
+* Dynamic cache key provider - class that provides EF Core with caching keys for DbContext model
+* Missing tenant middleware - ASP.NET Core request pipeline middleware that acts when tenant is not found
