@@ -5,9 +5,21 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreMultitenant.Web", "AspNetCoreMultitenant.Web\AspNetCoreMultitenant.Web.csproj", "{AF6B2C2A-A586-4987-850D-D34D9C447531}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMultitenant.Shared", "AspNetCoreMultitenant.Shared\AspNetCoreMultitenant.Shared.csproj", "{9A47D5FD-5611-47A1-8E3B-3A6FDF279384}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreMultitenant.Shared", "AspNetCoreMultitenant.Shared\AspNetCoreMultitenant.Shared.csproj", "{9A47D5FD-5611-47A1-8E3B-3A6FDF279384}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMultitenant.WebDangerous", "AspNetCoreMultitenant.WebDangerous\AspNetCoreMultitenant.WebDangerous.csproj", "{421E882B-B39E-4FD0-8502-788EBBDB4908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreMultitenant.WebDangerous", "AspNetCoreMultitenant.WebDangerous\AspNetCoreMultitenant.WebDangerous.csproj", "{421E882B-B39E-4FD0-8502-788EBBDB4908}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{D22B988B-88F5-46C0-9951-94CABBFE89F9}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E652E207-C6E5-4724-9199-5585B59A0083}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\labs-01-getting-started.md = ..\docs\labs-01-getting-started.md
+		..\docs\labs-02-tenant-sources.md = ..\docs\labs-02-tenant-sources.md
+		..\docs\labs.md = ..\docs\labs.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +42,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E652E207-C6E5-4724-9199-5585B59A0083} = {D22B988B-88F5-46C0-9951-94CABBFE89F9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D2C16CFE-10C6-44D0-B77B-DB482A8A6B98}
