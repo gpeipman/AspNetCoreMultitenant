@@ -1,7 +1,7 @@
 ﻿[
   {
     "Id": 1,
-    "Host": "sme1:5000",
+    "Host": "sme1:5001",
     "DatabaseType": 1,
     "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=MultitenantWeb_SME;Trusted_Connection=True;MultipleActiveResultSets=true",
     "Name": "Small biz 1",
@@ -10,22 +10,11 @@
   },
   {
     "Id": 2,
-    "Host": "sme2:5000",
+    "Host": "sme2:5001",
     "DatabaseType": 1,
     "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=MultitenantWeb_SME;Trusted_Connection=True;MultipleActiveResultSets=true",
     "Name": "Small biz 2",
     "StorageType": "AzureBlob",
     "StorageConnectionString": "<storage connection string>"
-  },
-  {
-    "Id": 3,
-    "Host": "bigcorp:5000",
-    "DatabaseType": 3,
-    "ConnectionString": "Data source=bigcorp.db",
-    "Name": "Big corp",
-    "StorageType": "AzureBlob",
-    "StorageConnectionString": "<storage connection string>",
-    "UseAdvancedProductThumbnails": true,
-    "SendProductNotifications": true
   }
 ]

@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using AspNetCoreMultitenant.WebDangerous.Data;
+using AspNetCoreMultitenant.WebDangerous.TenantProviders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +22,12 @@ namespace AspNetCoreMultitenant.WebDangerous
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options => { });
+            services.AddHttpContextAccessor();
+            services.AddMvc();
             services.AddControllersWithViews();
+
+            services.AddScoped<ITenantProvider, FileTenantProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,15 +40,12 @@ namespace AspNetCoreMultitenant.WebDangerous
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
-            app.UseHttpsRedirection();
+
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -52,6 +53,24 @@ namespace AspNetCoreMultitenant.WebDangerous
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var options = new DbContextOptions<ApplicationDbContext>();
+            var provider = new FileTenantProvider();
+
+            foreach (var tenant in provider.ListTenants())
+            {
+                provider.SetHostName(tenant.Host);
+
+                using (var dbContext = new ApplicationDbContext(options, provider))
+                {
+                    dbContext.Database.EnsureCreated();
+
+                    if (dbContext.Products.Count(p => p.TenantId == tenant.Id) == 0)
+                    {
+                        dbContext.GenerateData(tenant.Id);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using AspNetCoreMultitenant.WebDangerous.Data;
-using AspNetCoreMultitenant.WebDangerous.FileSystem;
 using AspNetCoreMultitenant.WebDangerous.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +13,7 @@ namespace AspNetCoreMultitenant.WebDangerous.Controllers
         private readonly ITenantProvider _tenantProvider;
 
         public HomeController(ApplicationDbContext context,
-                              ITenantProvider tenantProvider,
-                              IFileClient fileClient)
+                              ITenantProvider tenantProvider)
         {
             _context = context;
             _tenantProvider = tenantProvider;
@@ -23,8 +21,6 @@ namespace AspNetCoreMultitenant.WebDangerous.Controllers
 
         public IActionResult Index()
         {
-            //_context.Database.EnsureCreated();
-
             var model = _context.Products
                                 .Include(b => b.Category)
                                 .ToList();
