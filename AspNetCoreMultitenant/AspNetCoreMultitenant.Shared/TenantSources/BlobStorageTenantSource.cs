@@ -14,6 +14,7 @@ namespace AspNetCoreMultitenant.Shared.TenantSources
     {
         private const int TenantsUpdateInterval = 15 * 1000;
 
+        // Temporary, must be something thread-safe
         private IList<Tenant> _tenants;
         private Timer _tenantsUpdateTimer;
         private string _storageConnectionString;
