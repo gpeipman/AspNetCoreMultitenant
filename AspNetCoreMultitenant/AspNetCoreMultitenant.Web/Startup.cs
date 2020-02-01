@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AspNetCoreMultitenant.Shared;
 using AspNetCoreMultitenant.Shared.FileSystem;
 using AspNetCoreMultitenant.Shared.TenantProviders;
+using AspNetCoreMultitenant.Shared.TenantSources;
 using AspNetCoreMultitenant.Web.Commands.SaveProduct;
 using AspNetCoreMultitenant.Web.Data;
 using Microsoft.AspNetCore.Builder;

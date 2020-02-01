@@ -1,12 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Microsoft.AspNetCore.Http;
 
 namespace AspNetCoreMultitenant.Shared.TenantProviders
 {
     public class WebTenantProvider : ITenantProvider
     {
-        private ITenantSource _tenantSource;
-        private string _host;
+        private readonly ITenantSource _tenantSource;
+        private readonly string _host;
 
         public WebTenantProvider(ITenantSource tenantSource, IHttpContextAccessor accessor)
         {
@@ -16,9 +18,11 @@ namespace AspNetCoreMultitenant.Shared.TenantProviders
 
         public Tenant GetTenant()
         {
-            return _tenantSource.ListTenants()
-                                .Where(t => t.Host.ToLower() == _host.ToLower())
-                                .FirstOrDefault();
+            var tenants = _tenantSource.ListTenants();
+
+            return tenants
+                    .Where(t => t.Host.ToLower() == _host.ToLower())
+                    .FirstOrDefault();
         }
     }
 }

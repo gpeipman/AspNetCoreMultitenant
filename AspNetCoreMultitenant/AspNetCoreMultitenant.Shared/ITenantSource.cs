@@ -2,7 +2,6 @@
 {
     public interface ITenantSource
     {
-        Tenant GetTenant();
         Tenant[] ListTenants();
     }
 }
