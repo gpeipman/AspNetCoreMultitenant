@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 
 namespace AspNetCoreMultitenant.Shared.TenantProviders

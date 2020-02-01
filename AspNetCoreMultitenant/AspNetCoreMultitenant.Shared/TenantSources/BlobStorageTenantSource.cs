@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,15 +15,15 @@ namespace AspNetCoreMultitenant.Shared.TenantSources
     {
         private const int TenantsUpdateInterval = 15 * 1000;
 
-        // Temporary, must be something thread-safe
-        private IList<Tenant> _tenants;
-        private Timer _tenantsUpdateTimer;
-        private string _storageConnectionString;
-        private string _tenantsContainerName;
-        private string _tenantsBlobName;
+        private readonly ConcurrentDictionary<string, Tenant> _tenants;
+        private readonly Timer _tenantsUpdateTimer;
+        private readonly string _storageConnectionString;
+        private readonly string _tenantsContainerName;
+        private readonly string _tenantsBlobName;
 
         public BlobStorageTenantSource(IConfiguration conf)
         {
+            _tenants = new ConcurrentDictionary<string, Tenant>();
             _storageConnectionString = conf["StorageConnectionString"];
             _tenantsContainerName = conf["TenantsContainerName"];
             _tenantsBlobName = conf["TenantsBlobName"];
@@ -38,14 +39,9 @@ namespace AspNetCoreMultitenant.Shared.TenantSources
             }, null, TenantsUpdateInterval, TenantsUpdateInterval);
         }
 
-        public void Dispose()
-        {
-            _tenantsUpdateTimer.Dispose();
-        }
-
         public Tenant[] ListTenants()
         {
-            return _tenants.ToArray();
+            return _tenants.Select(t => t.Value).ToArray();
         }
 
         private void LoadTenants()
@@ -54,6 +50,7 @@ namespace AspNetCoreMultitenant.Shared.TenantSources
             var blobClient = storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference(_tenantsContainerName);
             var blob = container.GetBlobReference(_tenantsBlobName);
+            var tenantList = (List<Tenant>)null;
 
             blob.FetchAttributesAsync().GetAwaiter().GetResult();
 
@@ -61,8 +58,51 @@ namespace AspNetCoreMultitenant.Shared.TenantSources
             using (var textReader = new StreamReader(stream))
             using (var reader = new JsonTextReader(textReader))
             {
-                _tenants = JsonSerializer.Create().Deserialize<List<Tenant>>(reader);
+                tenantList = JsonSerializer.Create().Deserialize<List<Tenant>>(reader);
+            }
+
+            var currentKeys = _tenants.Keys;
+
+            // remove invalid keys
+            foreach (var key in currentKeys)
+            {
+                if (tenantList.Any(t => t.Host == key))
+                {
+                    continue;
+                }
+
+                _tenants.TryRemove(key, out _);
+            }
+
+            // add and update tenants
+            foreach(var tenant in tenantList)
+            {
+                var host = tenant.Host.ToLower();
+
+                _tenants.AddOrUpdate(host, tenant, (k, v) => tenant);
             }
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; 
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _tenantsUpdateTimer.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }
