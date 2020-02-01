@@ -102,22 +102,14 @@ namespace AspNetCoreMultitenant.Web
             {
                 provider.SetHostName(tenant.Host);
 
-                try
+                using (var dbContext = new ApplicationDbContext(options, provider))
                 {
-                    using (var dbContext = new ApplicationDbContext(options, provider))
+                    dbContext.Database.EnsureCreated();
+
+                    if (dbContext.Products.Count() == 0)
                     {
-                        dbContext.Database.EnsureCreated();
-
-                        if (dbContext.Products.Count() == 0)
-                        {
-                            // Lisa andmed andmebaasi
-                            dbContext.GenerateData(tenant.Id);
-                        }
+                        dbContext.GenerateData(tenant.Id);
                     }
-                }
-                catch(Exception ex)
-                {
-
                 }
             }
         }

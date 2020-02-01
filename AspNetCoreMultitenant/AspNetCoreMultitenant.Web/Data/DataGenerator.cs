@@ -27,7 +27,7 @@ namespace AspNetCoreMultitenant.Web.Data
 
         private static void GenerateForTenant1(ApplicationDbContext dbContext)
         {
-            // Generate tenant 1 data
+            
         }
 
         private static void GenerateForTenant2(ApplicationDbContext dbContext)

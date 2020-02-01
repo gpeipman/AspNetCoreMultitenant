@@ -27,10 +27,14 @@ namespace AspNetCoreMultitenant.WebDangerous.Data
             {
                 optionsBuilder.UseSqlServer(_tenant.ConnectionString);
             }
-            //else if(_tenant.DatabaseType == 2)
-            //{
-            //    optionsBuilder.UseMySql(_tenant.ConnectionString);
-            //}
+            else if (_tenant.DatabaseType == 2)
+            {
+                optionsBuilder.UseMySql(_tenant.ConnectionString);
+            }
+            else if(_tenant.DatabaseType == 3)
+            {
+                optionsBuilder.UseSqlite(_tenant.ConnectionString);
+            }
 
             optionsBuilder.ReplaceService<IModelCacheKeyFactory, DynamicModelCacheKeyFactory>();
         }
