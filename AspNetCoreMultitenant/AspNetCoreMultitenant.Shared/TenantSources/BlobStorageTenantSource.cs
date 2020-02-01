@@ -1,30 +1,58 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Newtonsoft.Json;
 
 namespace AspNetCoreMultitenant.Shared.TenantSources
 {
-    public class BlobStorageTenantSource : ITenantSource
+    public class BlobStorageTenantSource : ITenantSource, IDisposable
     {
-        private static IList<Tenant> _tenants;
+        private const int TenantsUpdateInterval = 15 * 1000;
+
+        private IList<Tenant> _tenants;
+        private Timer _tenantsUpdateTimer;
+        private string _storageConnectionString;
+        private string _tenantsContainerName;
+        private string _tenantsBlobName;
 
         public BlobStorageTenantSource(IConfiguration conf)
         {
-            if (_tenants == null)
+            _storageConnectionString = conf["StorageConnectionString"];
+            _tenantsContainerName = conf["TenantsContainerName"];
+            _tenantsBlobName = conf["TenantsBlobName"];
+
+            LoadTenants();
+
+            _tenantsUpdateTimer = new Timer(o =>
             {
-                LoadTenants(conf["StorageConnectionString"], conf["TenantsContainerName"], conf["TenantsBlobName"]);
-            }
+                Debug.WriteLine(DateTime.Now + ": updating tenants cache");
+
+                LoadTenants();
+
+            }, null, TenantsUpdateInterval, TenantsUpdateInterval);
         }
 
-        private void LoadTenants(string connStr, string containerName, string blobName)
+        public void Dispose()
         {
-            var storageAccount = CloudStorageAccount.Parse(connStr);
+            _tenantsUpdateTimer.Dispose();
+        }
+
+        public Tenant[] ListTenants()
+        {
+            return _tenants.ToArray();
+        }
+
+        private void LoadTenants()
+        {
+            var storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
             var blobClient = storageAccount.CreateCloudBlobClient();
-            var container = blobClient.GetContainerReference(containerName);
-            var blob = container.GetBlobReference(blobName);
+            var container = blobClient.GetContainerReference(_tenantsContainerName);
+            var blob = container.GetBlobReference(_tenantsBlobName);
 
             blob.FetchAttributesAsync().GetAwaiter().GetResult();
 
@@ -34,11 +62,6 @@ namespace AspNetCoreMultitenant.Shared.TenantSources
             {
                 _tenants = JsonSerializer.Create().Deserialize<List<Tenant>>(reader);
             }
-        }
-
-        public Tenant[] ListTenants()
-        {
-            return _tenants.ToArray();
         }
     }
 }

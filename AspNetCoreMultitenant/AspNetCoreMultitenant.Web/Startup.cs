@@ -42,7 +42,7 @@ namespace AspNetCoreMultitenant.Web
             services.AddMvc();
             services.AddControllersWithViews();
 
-            services.AddScoped<ITenantSource, FileTenantSource>();
+            services.AddSingleton<ITenantSource, FileTenantSource>();
             services.AddScoped<ITenantProvider, WebTenantProvider>();
             services.AddScoped<SaveProductCommand>();
             services.AddScoped<SaveProductImagesCommand>();
