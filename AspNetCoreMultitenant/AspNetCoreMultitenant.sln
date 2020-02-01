@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreMultitenant.Web", "AspNetCoreMultitenant.Web\AspNetCoreMultitenant.Web.csproj", "{AF6B2C2A-A586-4987-850D-D34D9C447531}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMultitenant.Shared", "AspNetCoreMultitenant.Shared\AspNetCoreMultitenant.Shared.csproj", "{9A47D5FD-5611-47A1-8E3B-3A6FDF279384}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreMultitenant.Shared", "AspNetCoreMultitenant.Shared\AspNetCoreMultitenant.Shared.csproj", "{9A47D5FD-5611-47A1-8E3B-3A6FDF279384}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMultitenant.WebDangerous", "AspNetCoreMultitenant.WebDangerous\AspNetCoreMultitenant.WebDangerous.csproj", "{421E882B-B39E-4FD0-8502-788EBBDB4908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreMultitenant.WebDangerous", "AspNetCoreMultitenant.WebDangerous\AspNetCoreMultitenant.WebDangerous.csproj", "{421E882B-B39E-4FD0-8502-788EBBDB4908}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreMultitenant.Admin", "AspNetCoreMultitenant.Admin\AspNetCoreMultitenant.Admin.csproj", "{90339650-C725-4505-A41B-C905449F615D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{421E882B-B39E-4FD0-8502-788EBBDB4908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{421E882B-B39E-4FD0-8502-788EBBDB4908}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{421E882B-B39E-4FD0-8502-788EBBDB4908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90339650-C725-4505-A41B-C905449F615D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90339650-C725-4505-A41B-C905449F615D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90339650-C725-4505-A41B-C905449F615D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90339650-C725-4505-A41B-C905449F615D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
