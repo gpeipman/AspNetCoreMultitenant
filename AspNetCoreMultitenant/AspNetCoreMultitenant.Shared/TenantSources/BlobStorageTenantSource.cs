@@ -8,12 +8,12 @@ using Newtonsoft.Json;
 
 namespace AspNetCoreMultitenant.Shared.TenantProvider
 {
-    public class BlobStorageTenantProvider : ITenantProvider
+    public class BlobStorageTenantSource : ITenantSource
     {
         private static IList<Tenant> _tenants;
         private string _host;
 
-        public BlobStorageTenantProvider(IHttpContextAccessor accessor, IConfiguration conf)
+        public BlobStorageTenantSource(IHttpContextAccessor accessor, IConfiguration conf)
         {
             if (_tenants == null)
             {

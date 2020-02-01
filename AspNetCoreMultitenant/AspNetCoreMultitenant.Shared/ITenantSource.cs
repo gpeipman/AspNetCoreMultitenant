@@ -1,7 +1,8 @@
 ﻿namespace AspNetCoreMultitenant.Shared
 {
-    public interface ITenantProvider
+    public interface ITenantSource
     {
         Tenant GetTenant();
+        Tenant[] ListTenants();
     }
 }

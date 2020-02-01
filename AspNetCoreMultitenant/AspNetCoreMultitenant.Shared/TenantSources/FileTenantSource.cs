@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace AspNetCoreMultitenant.Shared.TenantProviders
 {
-    public class FileTenantProvider : ITenantProvider
+    public class FileTenantSource : ITenantSource
     {
         private static Tenant[] _tenants = new Tenant[] { };
         private static DateTime _lastUpdate = DateTime.MinValue;
@@ -16,12 +16,12 @@ namespace AspNetCoreMultitenant.Shared.TenantProviders
 
         private string _host;
 
-        public FileTenantProvider(IHttpContextAccessor accessor)
+        public FileTenantSource(IHttpContextAccessor accessor)
         {
             _host = accessor.HttpContext.Request.Host.ToString();
         }
 
-        public FileTenantProvider()
+        public FileTenantSource()
         {
         }
 

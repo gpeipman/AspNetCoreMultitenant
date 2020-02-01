@@ -42,7 +42,8 @@ namespace AspNetCoreMultitenant.Web
             services.AddMvc();
             services.AddControllersWithViews();
 
-            services.AddScoped<ITenantProvider, FileTenantProvider>();
+            services.AddScoped<ITenantSource, FileTenantSource>();
+            services.AddScoped<ITenantProvider, WebTenantProvider>();
             services.AddScoped<SaveProductCommand>();
             services.AddScoped<SaveProductImagesCommand>();
             services.AddScoped<SaveProductThumbnailsCommand>();
@@ -96,11 +97,12 @@ namespace AspNetCoreMultitenant.Web
             });
 
             var options = new DbContextOptions<ApplicationDbContext>();
-            var provider = new FileTenantProvider();
+            var source = new FileTenantSource();
+            var provider = new ControllableTenantProvider();
 
-            foreach (var tenant in provider.ListTenants())
+            foreach (var tenant in source.ListTenants())
             {
-                provider.SetHostName(tenant.Host);
+                provider.Tenant = tenant;
 
                 using (var dbContext = new ApplicationDbContext(options, provider))
                 {
