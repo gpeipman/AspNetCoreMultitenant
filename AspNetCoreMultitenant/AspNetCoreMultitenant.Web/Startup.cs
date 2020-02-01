@@ -1,17 +1,18 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
+using AspNetCoreMultitenant.Shared;
+using AspNetCoreMultitenant.Shared.FileSystem;
+using AspNetCoreMultitenant.Shared.TenantProviders;
+using AspNetCoreMultitenant.Shared.TenantSources;
 using AspNetCoreMultitenant.Web.Commands.SaveProduct;
 using AspNetCoreMultitenant.Web.Data;
-using AspNetCoreMultitenant.Web.Extensions;
-using AspNetCoreMultitenant.Web.FileSystem;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace AspNetCoreMultitenant.Web
 {
@@ -33,10 +34,16 @@ namespace AspNetCoreMultitenant.Web
             });
 
             services.AddDbContext<ApplicationDbContext>(options => {});
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddIdentityCore<IdentityUser>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddSignInManager();
 
-            services.AddScoped<ITenantProvider, FileTenantProvider>();
+            services.AddHttpContextAccessor();
+            services.AddMvc();
+            services.AddControllersWithViews();
+
+            services.AddSingleton<ITenantSource, FileTenantSource>();
+            services.AddScoped<ITenantProvider, WebTenantProvider>();
             services.AddScoped<SaveProductCommand>();
             services.AddScoped<SaveProductImagesCommand>();
             services.AddScoped<SaveProductThumbnailsCommand>();
@@ -63,17 +70,15 @@ namespace AspNetCoreMultitenant.Web
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                //app.UseHsts();
             }
 
             app.UseMiddleware<MissingTenantMiddleware>(Configuration["MissingTenantUrl"]);
@@ -81,38 +86,23 @@ namespace AspNetCoreMultitenant.Web
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseRouting();
 
-            app.UseAuthentication();
-
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
 
-            //var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-            //using (var serviceScope = serviceScopeFactory.CreateScope())
-            //{
-            //    var dbContext = serviceScope.ServiceProvider.GetService<LasteDbContext>();
-            //    dbContext.Database.EnsureCreated();
-
-            //    if (dbContext.Invoices.Count() == 0)
-            //    {
-            //        for (var i = 0; i < 11; i++)
-            //        {
-            //            //dbContext.Invoices.Add(invoice);
-            //        }
-            //        dbContext.SaveChanges();
-            //    }
-            //}
-
             var options = new DbContextOptions<ApplicationDbContext>();
-            var provider = new FileTenantProvider();
+            var source = new FileTenantSource();
+            var provider = new ControllableTenantProvider();
 
-            foreach (var tenant in provider.ListTenants())
+            foreach (var tenant in source.ListTenants())
             {
-                provider.SetHostName(tenant.Host);
+                provider.Tenant = tenant;
 
                 using (var dbContext = new ApplicationDbContext(options, provider))
                 {
@@ -120,7 +110,6 @@ namespace AspNetCoreMultitenant.Web
 
                     if (dbContext.Products.Count() == 0)
                     {
-                        // Lisa andmed andmebaasi
                         dbContext.GenerateData(tenant.Id);
                     }
                 }

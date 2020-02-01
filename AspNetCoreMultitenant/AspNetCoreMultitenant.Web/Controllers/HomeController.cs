@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using AspNetCoreMultitenant.Shared;
+using AspNetCoreMultitenant.Shared.FileSystem;
 using AspNetCoreMultitenant.Web.Commands.SaveProduct;
 using AspNetCoreMultitenant.Web.Data;
-using AspNetCoreMultitenant.Web.Extensions;
-using AspNetCoreMultitenant.Web.FileSystem;
 using AspNetCoreMultitenant.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using AspNetCoreMultitenant.Web.FileSystem;
+using AspNetCoreMultitenant.Shared.FileSystem;
 using AspNetCoreMultitenant.Web.Models;
 
 namespace AspNetCoreMultitenant.Web.Commands.SaveProduct
